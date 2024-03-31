@@ -9,45 +9,47 @@ export default function ForgotPassword() {
     const handleForgotPassword = (e) => {
         e.preventDefault()
         console.log({ email })
-      }
+    }
 
     return (
         <Layout>
-            <div className={styles.AuthFormContainer}>
-                <form onSubmit={handleForgotPassword} className={styles.AuthForm}>
-                    <div className={styles.AuthFormContent}>
-                        <h3 className={styles.AuthFormTitle}>Forgot Password</h3>
-                        <div className="text-center">
-                            Not registered yet?{" "}
-                            <Link className="link-primary" href={"/account/SignUp"}>
-                                Sign Up
-                            </Link>
+            <main>
+                <div className={styles.AuthFormContainer}>
+                    <form onSubmit={handleForgotPassword} className={styles.AuthForm}>
+                        <div className={styles.AuthFormContent}>
+                            <h3 className={styles.AuthFormTitle}>Forgot Password</h3>
+                            <div className="text-center">
+                                Not registered yet?{" "}
+                                <Link className="link-primary" href={"/account/SignUp"}>
+                                    Sign Up
+                                </Link>
+                            </div>
+                            <div className="text-center">
+                                Already registered?{" "}
+                                <Link className="link-primary" href={"/account/SignIn"}>
+                                    Sign In
+                                </Link>
+                            </div>
+                            <div className="form-group mt-3">
+                                <label>Email address</label>
+                                <input
+                                    type="email"
+                                    className="form-control mt-1"
+                                    placeholder="Enter email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="d-grid gap-2 mt-3">
+                                <button type="submit" className="btn btn-primary">
+                                    Submit
+                                </button>
+                            </div>
                         </div>
-                        <div className="text-center">
-                            Already registered?{" "}
-                            <Link className="link-primary" href={"/account/SignIn"}>
-                                Sign In
-                            </Link>
-                        </div>
-                        <div className="form-group mt-3">
-                            <label>Email address</label>
-                            <input
-                                type="email"
-                                className="form-control mt-1"
-                                placeholder="Enter email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="d-grid gap-2 mt-3">
-                            <button type="submit" className="btn btn-primary">
-                                Submit
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
+            </main>
         </Layout>
     )
 }

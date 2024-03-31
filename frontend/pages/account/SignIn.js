@@ -31,13 +31,13 @@ export default function SignIn() {
       axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin`, { email, password },
         {
           "Content-Type": "application/json"
-        }).then( response => {
+        }).then(response => {
           localStorage.setItem("token", response.data.token)
-          router.push("/me/Dashboard")
-          }
-        ).catch( error => {
+          router.push("/me")
+        }
+        ).catch(error => {
           setPasswordErr(error.response.data.detail)
-          }
+        }
         )
 
 
@@ -49,50 +49,52 @@ export default function SignIn() {
 
   return (
     <Layout>
-      <div onSubmit={handleSignIn} className={styles.AuthFormContainer}>
-        <form className={styles.AuthForm}>
-          <div className={styles.AuthFormContent}>
-            <h3 className={styles.AuthFormTitle}>Sign In</h3>
-            <div className="text-center">
-              Not registered yet?{" "}
-              <Link className="link-primary" href={"/account/SignUp"}>
-                Sign Up
-              </Link>
+      <main>
+        <div onSubmit={handleSignIn} className={styles.AuthFormContainer}>
+          <form className={styles.AuthForm}>
+            <div className={styles.AuthFormContent}>
+              <h3 className={styles.AuthFormTitle}>Sign In</h3>
+              <div className="text-center">
+                Not registered yet?{" "}
+                <Link className="link-primary" href={"/account/SignUp"}>
+                  Sign Up
+                </Link>
+              </div>
+              <div className="form-group mt-3">
+                <label>Email address</label>
+                <input
+                  type="email"
+                  className="form-control mt-1"
+                  placeholder="Enter email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group mt-3">
+                <label>Password</label>
+                <input
+                  type="password"
+                  className="form-control mt-1"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              {passwordErr && <span className='error'> {passwordErr} </span>}
+              <div className="d-grid gap-2 mt-3">
+                <button type="submit" className="btn btn-primary">
+                  Submit
+                </button>
+              </div>
+              <p className="forgot-password text-right mt-2">
+                Forgot <Link href={"/account/ForgotPassword"}>password?</Link>
+              </p>
             </div>
-            <div className="form-group mt-3">
-              <label>Email address</label>
-              <input
-                type="email"
-                className="form-control mt-1"
-                placeholder="Enter email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group mt-3">
-              <label>Password</label>
-              <input
-                type="password"
-                className="form-control mt-1"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            {passwordErr && <span className='error'> {passwordErr} </span>}
-            <div className="d-grid gap-2 mt-3">
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
-            </div>
-            <p className="forgot-password text-right mt-2">
-              Forgot <Link href={"/account/ForgotPassword"}>password?</Link>
-            </p>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      </main>
     </Layout>
   )
 }

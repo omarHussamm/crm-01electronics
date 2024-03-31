@@ -37,6 +37,7 @@ export default function SignUp() {
   }
   return (
     <Layout>
+      <main>
       <div className={styles.AuthFormContainer}>
         <form onSubmit={handleSignUp} className={styles.AuthForm}>
           <div className={styles.AuthFormContent}>
@@ -90,6 +91,7 @@ export default function SignUp() {
           </div>
         </form>
       </div>
+      </main>
     </Layout>
   )
 }
