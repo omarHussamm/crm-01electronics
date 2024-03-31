@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
+import { useRouter } from "next/router"
 import styles from "../../styles/SignInUp.module.css";
 import Layout from '../../components/Layout';
 import Link from 'next/link';
 import { z } from "zod";
+import axios from 'axios';
 
 export default function SignIn() {
+
+  const router = useRouter()
+
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordErr, setPasswordErr] = useState('')
@@ -18,10 +24,24 @@ export default function SignIn() {
   const handleSignIn = (e) => {
     e.preventDefault()
     const validation = schema.safeParse({ email, password })
-    if(validation.success){
+    if (validation.success) {
       setPasswordErr('')
       console.log(validation.data)
-    }else{
+
+      axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin`, { email, password },
+        {
+          "Content-Type": "application/json"
+        }).then( response => {
+          localStorage.setItem("token", response.data.token)
+          router.push("/me/Dashboard")
+          }
+        ).catch( error => {
+          setPasswordErr(error.response.data.detail)
+          }
+        )
+
+
+    } else {
       const validationError = JSON.parse(validation.error.message)
       setPasswordErr(validationError[0].message)
     }

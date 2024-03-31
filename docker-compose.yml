@@ -27,6 +27,8 @@ services:
       - 8080:8080
     environment:
       - DATABASE_URL=postgresql://postgres@db/crm
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+      - ALGORITHM=HS256
     volumes:
       - ./backend/app:/code/app
     networks:
@@ -38,6 +40,8 @@ services:
     container_name: next-frontend
     build:
       context: ./frontend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
     ports:
       - 3000:3000
     networks:

@@ -3,3 +3,6 @@ uvicorn==0.29.0
 pydantic==2.6.4
 sqlmodel==0.0.16
 psycopg2==2.9.9
+typing==3.7.4
+python-jose==3.3.0
+passlib==1.7.4
