@@ -5,7 +5,6 @@ import Layout from '../../components/Layout';
 import Link from 'next/link';
 import { z } from "zod";
 import axios from 'axios';
-
 export default function SignIn() {
 
   const router = useRouter()
@@ -55,11 +54,17 @@ export default function SignIn() {
             <div className={styles.AuthFormContent}>
               <h3 className={styles.AuthFormTitle}>Sign In</h3>
               <div className="text-center">
-                Not registered yet?{" "}
-                <Link className="link-primary" href={"/account/SignUp"}>
-                  Sign Up
-                </Link>
+                {!router.query.success &&
+                  <>
+                    Not registered yet?{" "}
+                    <Link className="link-primary" href={"/account/SignUp"}>
+                      Sign Up
+                    </Link>
+                  </>
+                }
+                {router.query.success && <span className='text-success'>You created an account successfully</span>}
               </div>
+
               <div className="form-group mt-3">
                 <label>Email address</label>
                 <input

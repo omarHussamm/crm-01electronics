@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useRouter } from "next/router"
 import Head from 'next/head'
 import Footer from '../../components/Footer'
 import Clients from '../../components/Clients';
@@ -6,7 +7,7 @@ import Leads from '../../components/Leads';
 import Dashboard from '../../components/Dashboard';
 
 export default function Me() {
-    
+    const router = useRouter()
 
     const [active,setActive] = useState('dashboard');
 
@@ -21,7 +22,8 @@ export default function Me() {
         setActive('leads')
     }
     const handleLogout = () => {
-        console.log("logout")
+        localStorage.removeItem("token")
+        router.push("/")
     }
     return (
         <div>
@@ -49,7 +51,7 @@ export default function Me() {
                                         <i className="fs-4 bi-people-fill"></i> <span className="ms-1 d-none d-sm-inline">Clients</span>
                                     </button>
                                 </li>
-                                <li className="nav-item mb-4">
+                                <li className="nav-item mb-5">
                                     <button onClick={handleLeads} className="nav-link align-middle px-0 text-white">
                                         <i className="fs-4 bi-binoculars-fill"></i> <span className="ms-1 d-none d-sm-inline">Leads</span>
                                     </button>

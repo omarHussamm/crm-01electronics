@@ -29,8 +29,8 @@ def sign_in(user: SignInInput, session: Session = Depends(get_session)) -> Token
     )
     return {"token": access_token, "token_type": "bearer"}
 
-@router.post("/signup", response_model = User)
-def sign_in(user: SignUpInput, session: Session = Depends(get_session)) -> User:
+@router.post("/signup", response_model = MessageResponse)
+def sign_in(user: SignUpInput, session: Session = Depends(get_session)) -> MessageResponse:
     email_exists = session.execute(select(User).where(User.email == user.email)).scalars().all()
     if(len(email_exists)>0):
          raise HTTPException(status_code=400, detail=f"email {user.email} already exists")
@@ -40,7 +40,7 @@ def sign_in(user: SignUpInput, session: Session = Depends(get_session)) -> User:
     session.add(new_user)
     session.commit()
     session.refresh(new_user)
-    return new_user
+    return MessageResponse(message = "You created an account successfully")
 
 @router.post("/forgotpassword", response_model = MessageResponse)
 def sign_in(user: ForgotPasswordInput) -> MessageResponse:
