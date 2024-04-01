@@ -112,4 +112,4 @@ def delete_meeting(input: AddRemoveClientInput, req: Request, session: Session =
         raise HTTPException(status_code=400, detail=f"This Meeting is not yours")
     session.delete(meeting)
     session.commit()
-    return MessageResponse(message= "Meeting Deleted Successfully")
+    return MessageResponse(message= "Meeting Deleted Successfully") 

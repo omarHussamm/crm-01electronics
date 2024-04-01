@@ -1,159 +1,51 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import { useRouter } from "next/router"
+import Client from './Client';
+import Link from 'next/link';
 
+export default function Dashboard({ user }) {
+  const router = useRouter()
 
-export default function Dashboard({ data }) {
+  const [clients, setClients] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getMyClients()
+      if (!res) {
+        router.push("account/SignIn?tokenexpired=true")
+      }
+      setClients(res)
+    })()
+  }, [])
 
   return (
     <div>
-      {/* <div>Dashboard</div>
-      <div>Image</div>
-      <div>Full Name</div>
-      <div>Email</div>
-      <div>Clients</div> */}
       <section className="jumbotron text-center mt-4">
         <div className="container">
-          <h1 className="jumbotron-heading">{data.name}'s Dashboard</h1>
+          <h1 className="jumbotron-heading">{user.name}'s Dashboard</h1>
           <p className="lead text-muted">welcome back!</p>
           <p>
-            <button className="btn btn-primary m-3 mt-2">Add Client</button>
-            <button className="btn btn-primary m-3 mt-2">Add Lead</button>
-            <button className="btn btn-primary m-3 mt-2">Schedule Meeting</button>
+            <Link href="/me/AddClient" className="btn btn-primary m-3 mt-2">Add Client</Link>
+            <Link href="/me/AddLead" className="btn btn-primary m-3 mt-2">Add Lead</Link>
+            <Link href="/me/AddMeeting" className="btn btn-primary m-3 mt-2">Schedule Meeting</Link>
           </p>
         </div>
       </section>
 
-      <div className="album py-5 bg-light">
+      <div className="album py-5 bg-light text-center">
+        <div className='h3 mb-4'>Your Clients</div>
         <div className="container">
 
           <div className="row">
-            <div className="col-md-4">
-              <div className="card mb-4 box-shadow">
-                <div className="card-body">
-                  <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small className="text-muted">9 mins</small>
-                  </div>
-                </div>
+            {clients[0] && clients.map((client) =>
+              <div className="col-lg-4" id={client.id}>
+                <Client client={client} />
               </div>
-            </div>
-            <div className="col-md-4">
-              <div className="card mb-4 box-shadow">
-                <div className="card-body">
-                  <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small className="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="card mb-4 box-shadow">
-                <div className="card-body">
-                  <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small className="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="card mb-4 box-shadow">
-                <div className="card-body">
-                  <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small className="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="card mb-4 box-shadow">
-                <div className="card-body">
-                  <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small className="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="card mb-4 box-shadow">
-                <div className="card-body">
-                  <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small className="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="card mb-4 box-shadow">
-                <div className="card-body">
-                  <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small className="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="card mb-4 box-shadow">
-                <div className="card-body">
-                  <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small className="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="card mb-4 box-shadow">
-                <div className="card-body">
-                  <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small className="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
+            )}
+            {!clients[0] &&
+              <div className='h3'>You don't have any clients</div>
+            }
           </div>
         </div>
       </div>
@@ -163,3 +55,18 @@ export default function Dashboard({ data }) {
 }
 
 
+async function getMyClients() {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/actions/myclients`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+    })
+    const data = response.data;
+    return data;
+  } catch {
+    return ''
+
+  }
+}

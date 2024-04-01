@@ -48,7 +48,7 @@ export default function Me() {
             </Head>
             <div className="container-fluid">
                 <div className="row flex-nowrap">
-                    <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-primary">
+                    <div className="col-auto col-md-2 col-xl-2 px-sm-2 px-0 bg-primary">
                         <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                             <span className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                                 <i className="bi bi-list"></i> <span className="fs-5 d-none d-sm-inline mx-2">Menu</span>
@@ -85,7 +85,7 @@ export default function Me() {
                             {data &&
                                 <>
                                     {(active === 'dashboard') &&
-                                        <Dashboard data={data}></Dashboard>
+                                        <Dashboard user={data}></Dashboard>
                                     }
                                     {(active === 'clients') &&
                                         <Clients></Clients>
