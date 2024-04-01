@@ -1,15 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from "next/router"
 import Head from 'next/head'
 import Footer from '../../components/Footer'
 import Clients from '../../components/Clients';
 import Leads from '../../components/Leads';
 import Dashboard from '../../components/Dashboard';
+import axios from 'axios'
+
 
 export default function Me() {
     const router = useRouter()
 
-    const [active,setActive] = useState('dashboard');
+    const [data, setData] = useState("");
+    const [active, setActive] = useState('dashboard');
+
+    useEffect(() => {
+        (async () => {
+            const res = await getMe()
+            if (!res) {
+                router.push("account/SignIn?tokenexpired=true")
+            }
+            setData(res)
+        })()
+    }, [])
 
     const handleDashboard = () => {
         setActive('dashboard')
@@ -29,7 +42,7 @@ export default function Me() {
         <div>
             <Head>
                 <title>01 Electronics</title>
-                <meta name='description' content='CRM for clients and leads'/>
+                <meta name='description' content='CRM for clients and leads' />
                 <meta name='keywords' content='clients, leads' />
                 <link rel="icon" href="/logo.png" />
             </Head>
@@ -69,20 +82,41 @@ export default function Me() {
                     </div>
                     <div className="col py-3">
                         <div className='full-page'>
-                        {(active==='dashboard') &&
-                        <Dashboard></Dashboard>
-                        }
-                        {(active==='clients') &&
-                            <Clients></Clients>
-                        }
-                        {(active==='leads') &&
-                            <Leads></Leads>
-                        }
+                            {data &&
+                                <>
+                                    {(active === 'dashboard') &&
+                                        <Dashboard data={data}></Dashboard>
+                                    }
+                                    {(active === 'clients') &&
+                                        <Clients></Clients>
+                                    }
+                                    {(active === 'leads') &&
+                                        <Leads></Leads>
+                                    }
+                                </>
+                            }
                         </div>
-                        <Footer/>
+                        <Footer />
                     </div>
                 </div>
             </div>
         </div>
     )
+}
+
+async function getMe() {
+    try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        })
+        const data = response.data;
+        return data;
+    } catch {
+        return ''
+
+    }
+
 }

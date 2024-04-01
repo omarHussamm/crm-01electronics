@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routers import auth_routes
+from app.routers import auth_routes, actions_routes
 from sqlmodel import SQLModel
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -7,7 +7,9 @@ from app.db import engine
 
 app = FastAPI()
 
+
 app.include_router(auth_routes.router)
+app.include_router(actions_routes.router)
 
 origins = [
     "http://localhost:3000",

@@ -5,6 +5,8 @@ import Layout from '../../components/Layout';
 import Link from 'next/link';
 import { z } from "zod";
 import axios from 'axios';
+
+
 export default function SignIn() {
 
   const router = useRouter()
@@ -25,7 +27,6 @@ export default function SignIn() {
     const validation = schema.safeParse({ email, password })
     if (validation.success) {
       setPasswordErr('')
-      console.log(validation.data)
 
       axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin`, { email, password },
         {
@@ -54,7 +55,7 @@ export default function SignIn() {
             <div className={styles.AuthFormContent}>
               <h3 className={styles.AuthFormTitle}>Sign In</h3>
               <div className="text-center">
-                {!router.query.success &&
+                {!router.query.success && 
                   <>
                     Not registered yet?{" "}
                     <Link className="link-primary" href={"/account/SignUp"}>
@@ -63,6 +64,7 @@ export default function SignIn() {
                   </>
                 }
                 {router.query.success && <span className='text-success'>You created an account successfully</span>}
+                {router.query.tokenexpired && <div className='text-danger'>Token Expired</div>}
               </div>
 
               <div className="form-group mt-3">

@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function Footer() {
   return (
-    <footer>Powered by{' '} 01 Electronics</footer>
+    <footer>Powered by &nbsp; <span className='text-primary'>01 Electronics</span></footer>
   )
 }
