@@ -25,7 +25,7 @@ export default function AddClient() {
   const nameSchema = z.string().min(6, { message: "Must be 6 or more characters long" })
   const phoneSchema = z.string().regex(phoneRegex, 'Invalid Number!').min(11, "Less than 11 characters")
 
-  const handleSignIn = (e) => {
+  const handleAddClient = (e) => {
     e.preventDefault()
     const nameValidation = nameSchema.safeParse(name)
     const phoneValidation = phoneSchema.safeParse(phone)
@@ -43,7 +43,7 @@ export default function AddClient() {
       setPhoneErr(validationError[0].message)
       return
     }
-    axios.post(`${process.env.NEXT_PUBLIC_API_URL}/actions/client`, { email, name, phone_number:phone },
+    axios.post(`${process.env.NEXT_PUBLIC_API_URL}/actions/client`, { email: email.toLowerCase(), name, phone_number: phone },
       {
         headers: {
           "Content-Type": "application/json",
@@ -62,17 +62,15 @@ export default function AddClient() {
   return (
     <Layout>
       <main>
-        <div onSubmit={handleSignIn} className={styles.AuthFormContainer}>
+        <div onSubmit={handleAddClient} className={styles.AuthFormContainer}>
           <form className={styles.AuthForm}>
             <div className={styles.AuthFormContent}>
               <h3 className={styles.AuthFormTitle}>Add Client</h3>
               <div className="text-center">
-                {router.query.success && <span className='text-success'>You created an account successfully</span>}
-                {router.query.tokenexpired && <div className='text-danger'>Token Expired</div>}
               </div>
 
               <div className="form-group mt-3">
-                <label>Emai</label>
+                <label>Email</label>
                 <input
                   type="email"
                   className="form-control mt-1"

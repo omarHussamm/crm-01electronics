@@ -102,14 +102,14 @@ def remove_client(input: AddRemoveClientInput, req: Request, session: Session = 
     session.refresh(new_lead)
     return new_lead
 
-@router.delete("/meeting", response_model=MessageResponse)
-def delete_meeting(input: AddRemoveClientInput, req: Request, session: Session = Depends(get_session)) -> MessageResponse:
+@router.delete("/meeting/{id}", response_model=MessageResponse)
+def delete_meeting(id: int, req: Request, session: Session = Depends(get_session)) -> MessageResponse:
     user = get_current_user((req.headers["Authorization"]).split(' ')[1], session)
-    meeting = session.execute(select(Meeting).where(Meeting.id == input.id)).scalars().one_or_none()
+    meeting = session.execute(select(Meeting).where(Meeting.id == id)).scalars().one_or_none()
     if not meeting:
         raise HTTPException(status_code=400, detail=f"Invalid Meeting id")
     if(meeting.user_id != user.id):
         raise HTTPException(status_code=400, detail=f"This Meeting is not yours")
     session.delete(meeting)
     session.commit()
-    return MessageResponse(message= "Meeting Deleted Successfully") 
+    return MessageResponse(message= "Meeting Deleted Successfully")  

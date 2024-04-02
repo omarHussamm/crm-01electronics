@@ -28,7 +28,7 @@ export default function SignIn() {
     if (validation.success) {
       setPasswordErr('')
 
-      axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin`, { email, password },
+      axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin`, { email: email.toLowerCase(), password },
         {
           "Content-Type": "application/json"
         }).then(response => {

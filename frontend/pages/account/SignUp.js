@@ -37,7 +37,7 @@ export default function SignUp() {
       setPasswordErr(validationError[0].message)
       return
     }
-    axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`, { name, email, password },
+    axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`, { name, email: email.toLowerCase(), password },
       {
         "Content-Type": "application/json"
       }).then(() => {

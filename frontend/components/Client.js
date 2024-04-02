@@ -1,6 +1,37 @@
 import React from 'react'
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 export default function Client({ client }) {
+    const router = useRouter()
+
+    const handleRemoveClient = e => {
+        e.preventDefault();
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/actions/removeclient`, { id: client.id },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                }
+            }).then(() => {
+
+                router.push({
+                    pathname: '/me',
+                    query: { page: "leads"},
+                })
+            }
+            )
+    }
+
+    const handleAddMeeting = e => {
+        e.preventDefault()
+        router.push({
+            pathname: '/me/AddMeeting',
+            query: { id: client.id },
+        })
+
+    }
+
     return (
         <div className="card mb-4 box-shadow">
             <div className="card-body">
@@ -13,8 +44,8 @@ export default function Client({ client }) {
                     <p className="card-text"><i class="bi bi-telephone"></i> {client.phone_number}</p>
                 </div>
                 <div className="d-flex justify-content-between">
-                    <button type="button" className="btn btn-sm btn-primary">Schedule Meeting</button>
-                    <button type="button" className="btn btn-sm btn-danger">Remove</button>
+                    <button onClick={handleAddMeeting} type="button" className="btn btn-sm btn-primary">Schedule Meeting</button>
+                    <button onClick={handleRemoveClient} type="button" className="btn btn-sm btn-danger">Remove</button>
                 </div>
             </div>
         </div>

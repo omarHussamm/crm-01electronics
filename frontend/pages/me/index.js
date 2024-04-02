@@ -12,7 +12,7 @@ export default function Me() {
     const router = useRouter()
 
     const [data, setData] = useState("");
-    const [active, setActive] = useState('dashboard');
+    const [active, setActive] = useState(router.query.page ? router.query.page : 'dashboard');
 
     useEffect(() => {
         (async () => {
@@ -21,8 +21,14 @@ export default function Me() {
                 router.push("account/SignIn?tokenexpired=true")
             }
             setData(res)
+
         })()
     }, [])
+
+    useEffect(() => {
+        setActive(router.query.page ? router.query.page : 'dashboard')
+    }, [router.query])
+
 
     const handleDashboard = () => {
         setActive('dashboard')
