@@ -6,6 +6,7 @@ import Clients from '../../components/Clients';
 import Leads from '../../components/Leads';
 import Dashboard from '../../components/Dashboard';
 import axios from 'axios'
+import Image from 'next/image';
 
 
 export default function Me() {
@@ -57,7 +58,13 @@ export default function Me() {
                     <div className="col-auto col-md-2 col-xl-2 px-sm-2 px-0 bg-primary">
                         <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                             <span className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                                <i className="bi bi-list"></i> <span className="fs-5 d-none d-sm-inline mx-2">Menu</span>
+                                <Image
+                                    className="ms-1 d-none d-sm-inline"
+                                    src="/logo.png"
+                                    width={120}
+                                    height={120}
+                                    alt="01 Electronics Logo"
+                                />
                             </span>
                             <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start">
                                 <li className="nav-item mt-4">

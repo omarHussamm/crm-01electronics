@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, timezone
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
+from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
 
 from app.db import get_session
 from app.schemas import User
@@ -62,3 +63,17 @@ def get_current_user(token: str = Depends(oauth2_scheme), session: Session = Dep
         if user is None:
             raise credentials_exception
         return user
+
+
+mail_conf = ConnectionConfig(
+    MAIL_USERNAME = os.environ['MAIL_USERNAME'],
+    MAIL_PASSWORD = os.environ['MAIL_PASSWORD'],
+    MAIL_FROM = 'electronics.01.crm@gmail.com',
+    MAIL_PORT = 587,
+    MAIL_SERVER = 'smtp.gmail.com',
+    MAIL_FROM_NAME = '01 electronics',
+    MAIL_STARTTLS = True,
+    MAIL_SSL_TLS = False,
+    USE_CREDENTIALS = True,
+    VALIDATE_CERTS = True
+)

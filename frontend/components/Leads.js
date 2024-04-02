@@ -22,7 +22,7 @@ export default function Leads() {
 
   useEffect(() => {
     if (query.trimStart()) {
-      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/actions/search/leads/851568284`, {
+      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/actions/search/leads/${query}`, {
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer " + localStorage.getItem("token")
@@ -45,7 +45,7 @@ export default function Leads() {
             <input
               type="text"
               className="form-control mt-1"
-              placeholder="Search by Client Id or Name"
+              placeholder="Search by Lead Id or Name"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               required

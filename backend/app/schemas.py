@@ -1,5 +1,8 @@
 from sqlmodel import SQLModel, Field, Enum
 from datetime import datetime
+from pydantic import EmailStr, BaseModel
+from typing import List
+
 import enum
 
 class MessageResponse(SQLModel):
@@ -70,3 +73,6 @@ class MeetingInput(SQLModel):
 
 class AddRemoveClientInput(SQLModel):
     id: int
+
+class EmailSchema(BaseModel):
+   email: List[EmailStr]

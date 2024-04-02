@@ -2,13 +2,20 @@ import React, { useState } from 'react'
 import styles from "../../styles/SignInUp.module.css";
 import Layout from '../../components/Layout';
 import Link from 'next/link';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 export default function ForgotPassword() {
+
+    const router = useRouter()
+
     const [email, setEmail] = useState('')
 
     const handleForgotPassword = (e) => {
         e.preventDefault()
-        console.log({ email })
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/forgotpassword`, { email: [email] }).then(() => {
+            router.push({ pathname: "/account/SignIn", query: { passwordreset: true } })
+        })
     }
 
     return (

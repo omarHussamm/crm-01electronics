@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Header from './Header'
 import Footer from './Footer'
+import Image from 'next/image'
 
 export default function Layout({ title, keywords, description, children }) {
 
@@ -14,7 +15,16 @@ export default function Layout({ title, keywords, description, children }) {
       </Head>
 
       <Header />
-      <div className='full-page'>{children}</div>
+      <div className='full-page'>{children}
+        <div className='text-center'>
+          <Image
+            src="/bigLogo.png"
+            width={500}
+            height={500}
+            alt="01 Electronics Logo"
+          />
+        </div>
+      </div>
       <Footer />
     </div>
   )

@@ -55,7 +55,7 @@ export default function SignIn() {
             <div className={styles.AuthFormContent}>
               <h3 className={styles.AuthFormTitle}>Sign In</h3>
               <div className="text-center">
-                {!router.query.success && 
+                {!router.query.success && !router.query.passwordreset &&
                   <>
                     Not registered yet?{" "}
                     <Link className="link-primary" href={"/account/SignUp"}>
@@ -64,6 +64,7 @@ export default function SignIn() {
                   </>
                 }
                 {router.query.success && <span className='text-success'>You created an account successfully</span>}
+                {router.query.passwordreset && <span className='text-success'>Password reset successfully if this email exists</span>}
                 {router.query.tokenexpired && <div className='text-danger'>Token Expired</div>}
               </div>
 
