@@ -39,7 +39,7 @@ export default function Dashboard({ user }) {
 
           <div className="row">
             {clients[0] && clients.map((client) =>
-              <div className="col-lg-4" id={client.id}>
+              <div className="col-lg-4" key={client.id}>
                 <Client client={client} />
               </div>
             )}

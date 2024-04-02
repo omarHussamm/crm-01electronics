@@ -8,6 +8,7 @@ export default function Leads() {
   const router = useRouter()
 
   const [leads, setLeads] = useState([]);
+  const [query, setQuery] = useState('')
 
   useEffect(() => {
     (async () => {
@@ -18,15 +19,42 @@ export default function Leads() {
       setLeads(res)
     })()
   }, [])
+
+  useEffect(() => {
+    if (query.trimStart()) {
+      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/actions/search/leads/851568284`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+      }).then(response => {
+        setLeads(response.data)
+      })
+    } else {
+      getAllLeads().then(data => setLeads(data))
+
+    }
+  }, [query])
+
   return (
     <>
       <div className='h1 text-center my-4'>Search for Leads</div>
       <div className="album py-5 bg-light text-center">
         <div className="container">
+          <div className="form-group mt-3">
+            <input
+              type="text"
+              className="form-control mt-1"
+              placeholder="Search by Client Id or Name"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              required
+            />
+          </div>
 
-          <div className="row">
+          <div className="row mt-5">
             {leads[0] && leads.map((leads) =>
-              <div className="col-lg-4" id={leads.id}>
+              <div className="col-lg-4" key={leads.id}>
                 <Lead lead={leads} />
               </div>
             )}

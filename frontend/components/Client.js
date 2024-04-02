@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
 export default function Client({ client }) {
     const router = useRouter()
+
+    const[err, setErr] = useState('')
 
     const handleRemoveClient = e => {
         e.preventDefault();
@@ -20,7 +22,9 @@ export default function Client({ client }) {
                     query: { page: "leads"},
                 })
             }
-            )
+            ).catch(() =>{
+                setErr("You can't remove this client")
+            })
     }
 
     const handleAddMeeting = e => {
@@ -40,13 +44,14 @@ export default function Client({ client }) {
                     <p className="card-text">ID: {client.id}</p>
                 </div>
                 <div className="d-flex justify-content-between">
-                    <p className="card-text"><i class="bi bi-envelope"></i> {client.email}</p>
-                    <p className="card-text"><i class="bi bi-telephone"></i> {client.phone_number}</p>
+                    <p className="card-text"><i className="bi bi-envelope"></i> {client.email}</p>
+                    <p className="card-text"><i className="bi bi-telephone"></i> {client.phone_number}</p>
                 </div>
                 <div className="d-flex justify-content-between">
                     <button onClick={handleAddMeeting} type="button" className="btn btn-sm btn-primary">Schedule Meeting</button>
                     <button onClick={handleRemoveClient} type="button" className="btn btn-sm btn-danger">Remove</button>
                 </div>
+                {err &&<div className='text-danger mt-2'>{err}</div>}
             </div>
         </div>
     )

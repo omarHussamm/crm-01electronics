@@ -30,8 +30,8 @@ export default function Lead({ lead }) {
                     <p className="card-text">ID: {lead.id}</p>
                 </div>
                 <div className="d-flex justify-content-between">
-                    <p className="card-text"><i class="bi bi-envelope"></i> {lead.email}</p>
-                    <p className="card-text"><i class="bi bi-telephone"></i> {lead.phone_number}</p>
+                    <p className="card-text"><i className="bi bi-envelope"></i> {lead.email}</p>
+                    <p className="card-text"><i className="bi bi-telephone"></i> {lead.phone_number}</p>
                 </div>
                 <div className="d-flex justify-content-between">
                     <button type="button" onClick={handleAddToClients} className="btn btn-sm btn-primary">Add to clients</button>
