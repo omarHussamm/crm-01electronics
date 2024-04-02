@@ -4,20 +4,20 @@ from app.controllers.auth_controllerr import get_current_user
 from app.controllers.actions_controller import  client_exists, lead_exists, validate_meeting
 import random
 from app.db import get_session
-from sqlmodel import Session, select
+from sqlmodel import Session, select, or_
 
 
 router = APIRouter(prefix="/actions")
 
 @router.get("/clients", response_model=list[Client])
-def get_clients(req: Request, session: Session = Depends(get_session)) -> list[Client]:
+def get_all_clients(req: Request, session: Session = Depends(get_session)) -> list[Client]:
     get_current_user((req.headers["Authorization"]).split(' ')[1], session) 
     result = session.execute(select(Client))
     clients = result.scalars().all()
     return clients
 
 @router.get("/leads", response_model=list[Lead])
-def get_leads(req: Request, session: Session = Depends(get_session)) -> list[Lead]:
+def get_all_leads(req: Request, session: Session = Depends(get_session)) -> list[Lead]:
     get_current_user((req.headers["Authorization"]).split(' ')[1], session) 
     result = session.execute(select(Lead))
     leads = result.scalars().all()
@@ -113,3 +113,27 @@ def delete_meeting(id: int, req: Request, session: Session = Depends(get_session
     session.delete(meeting)
     session.commit()
     return MessageResponse(message= "Meeting Deleted Successfully")  
+
+@router.get("/search/clients/{query}", response_model=list[Client])
+def get_clients(query, req: Request, session: Session = Depends(get_session)) -> list[Client]:
+    get_current_user((req.headers["Authorization"]).split(' ')[1], session)
+
+    if(query.isdigit()):
+        result = session.execute(select(Client).where(Client.id==query))
+    else:
+        result = session.execute(select(Client).where(Client.name.ilike('%'+ query +'%')))
+
+    clients = result.scalars().all()
+    return clients
+
+@router.get("/search/leads/{query}", response_model=list[Lead])
+def get_leads(query, req: Request, session: Session = Depends(get_session)) -> list[Lead]:
+    get_current_user((req.headers["Authorization"]).split(' ')[1], session)
+    
+    if(query.isdigit()):
+        result = session.execute(select(Lead).where(Lead.id==query))
+    else:
+        result = session.execute(select(Lead).where(Lead.name.ilike('%'+ query +'%')))
+
+    leads = result.scalars().all()
+    return leads
