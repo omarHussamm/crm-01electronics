@@ -1,9 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from app.routers import auth_routes, actions_routes
-from sqlmodel import SQLModel
+from sqlmodel import SQLModel, Session
 from fastapi.middleware.cors import CORSMiddleware
+from app.data import populate_db
 
-from app.db import engine 
+from app.db import engine, get_session
 
 app = FastAPI()
 
@@ -31,3 +32,7 @@ def on_startup():
 @app.get("/")
 def hello_api():
     return {"Message":"Welcome to 01electonics CRM "} 
+
+@app.post("/populatedb")
+def populate(session: Session = Depends(get_session)):
+    populate_db(session)

@@ -4,7 +4,7 @@ from app.controllers.auth_controllerr import get_current_user
 from app.controllers.actions_controller import  client_exists, lead_exists, validate_meeting
 import random
 from app.db import get_session
-from sqlmodel import Session, select, or_
+from sqlmodel import Session, select
 
 
 router = APIRouter(prefix="/actions")
